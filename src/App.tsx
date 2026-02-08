@@ -17,6 +17,8 @@ function App() {
         <Link to="/about">About</Link>
       </nav>
 
+      <h1>App</h1>
+
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
