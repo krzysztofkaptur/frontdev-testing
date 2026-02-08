@@ -8,6 +8,6 @@ describe("App", () => {
     it('should render the App title', () => {
         render(<MemoryRouter><App /></MemoryRouter>)
 
-        expect(screen.getByText("App")).not.toBeVisible()
+        expect(screen.getByText("App")).toBeVisible()
     })
 })
