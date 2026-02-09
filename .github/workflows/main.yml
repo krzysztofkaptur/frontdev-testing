@@ -7,36 +7,41 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  quality:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - name: Run Biome
+        run: bun run biome
+      - name: Run tests
+        run: bun run test
 
+
+  deploy:
+    needs: quality
+    runs-on: ubuntu-latest
     steps: 
       - name: Checkout repo
         uses: actions/checkout@v6
-
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@main
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
-      
       - name: Install deps
         run: bun install
-
-      - name: Run tests
-        run: bun run test
-
       - name: Build app
         run: bun run build
-
       - name: Deploy to S3
         run: aws s3 sync ./dist s3://${{ secrets.BUCKET_NAME }}
-
       - name: Create CloudFront invalidation
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
