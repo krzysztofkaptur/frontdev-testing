@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { describe, expect, it } from "vitest";
-import App from "./App";
+import App from "./App.tsx";
 
 describe("App", () => {
 	it("should render the App title", () => {
