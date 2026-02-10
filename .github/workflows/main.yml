@@ -21,7 +21,7 @@ jobs:
         run: bun run test
 
 
-  deploy:
+  deploy-fe:
     needs: quality
     runs-on: ubuntu-latest
     steps: 
@@ -42,6 +42,6 @@ jobs:
       - name: Build app
         run: bun run build
       - name: Deploy to S3
-        run: aws s3 sync ./dist s3://${{ secrets.BUCKET_NAME }}
+        run: aws s3 sync ./apps/web/dist s3://${{ secrets.BUCKET_NAME }}
       - name: Create CloudFront invalidation
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
