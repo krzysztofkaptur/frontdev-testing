@@ -18,7 +18,9 @@ function App() {
 				<Link to="/about">About</Link>
 			</nav>
 
-			<h1>App2</h1>
+			<h1>App</h1>
+
+			<p>test</p>
 
 			<Routes>
 				<Route path="/home" element={<Home />} />
